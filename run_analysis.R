@@ -56,11 +56,11 @@ names(subject) <- 'subject'
 activity <- bind_rows(y_train, y_test)
 names(activity) <- 'activity'
 
-#Combining subject, activity, mean and std in only dataset:
+#4. Combining subject, activity, mean and std in only dataset:
 Merged_Data <- bind_cols(subject, activity, Merged_Data)
 
 
-#4. Renaming labels of levels with activity_levels, and apply it to dataSet
+# Renaming labels of levels with activity_levels and apply it to Merged_Data
 activity_ID <- factor(Merged_Data$activity)
 levels(activity_ID) <- activity_labels[,2]
 Merged_Data$activity <- activity_ID
@@ -72,7 +72,5 @@ Data <- melt(Merged_Data, (id.vars=c("subject", "activity")))
 tidy_data <- dcast(Data, subject + activity ~ variable, mean)
 names(tidy_data)[-c(1:2)] <- paste("[mean of]", names(tidy_data)[-c(1:2)])
                                    
-
+#6. Outputing a tidy data:
 write.table(tidy_data, file = "./tidy_data.txt", sep=",")
-
-View(tidy_data)
